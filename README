@@ -13,6 +13,8 @@ make test
 
 Dust concentration is measured in pcs/0.01cf and μg/m3.
 
+No third-party software is required to run the application.
+
 The Shinyei sensor is connected to the GPIO on the Raspberry Pi in the following
 manner:
 
