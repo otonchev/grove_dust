@@ -1,0 +1,22 @@
+Grove Dust sensor(Shinyei PPD42NS) and a Raspberry Pi
+-----------------------------------------------------
+
+This project demonstrates how to monitor the air quality in an environment by
+measuring the dust concentration with the Grove Dust sensor(Shinyei PPD42NS)
+connected to Raspberry Pi.
+
+To run the project:
+
+git clone
+make test
+./test
+
+Dust concentration is measured in pcs/0.01cf and μg/m3.
+
+The Shinyei sensor is connected the GPIO of the Raspberry Pi in the following
+manner:
+
+Red wire to Pin 2(5V)
+Black wire to Pin 6(GND)
+Black wire to a 3k3 resistor which on the other end is connected to Pin 7(GPIO4)
+Pin 7(GPIO4) to a 1k2 resistor which on the other end connects to Yellow wire
