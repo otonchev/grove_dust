@@ -10,6 +10,7 @@
 #include <poll.h>
 #include <string.h>
 #include <assert.h>
+#include<pthread.h>
 
 static const char *pin_dir_str[] = {
   "in",
@@ -26,6 +27,17 @@ static const char *pin_edge_str[] = {
 struct _LNGPIOPinData
 {
   int fd;
+  struct pollfd fds;
+};
+
+struct _LNGPIOPinMonitor
+{
+  pthread_t thread_id;
+  pthread_mutex_t lock;
+  LNGPIOPinStatusChanged callback;
+  LNGPIOPinData *pin_data;
+  int stop_thread;
+  int pin;
 };
 
 int
@@ -187,32 +199,35 @@ lngpio_read (int pin)
   return result;
 }
 
-static void
-pin_wait_level (int fd, int level)
+static int
+pin_get_level (int fd, struct pollfd *fds)
 {
-  struct pollfd fds;
+  int res;
+  int rc;
+  char buf[3];
+
+  rc = poll (fds, 1, 100000);
+  if (rc < 0) {
+    fprintf (stderr, "Error on poll!\n");
+    return -1;
+  }
+
+  lseek (fd, 0, SEEK_SET);
+  read (fd, buf, 3);
+  buf[1] = 0;
+
+  res = atoi (buf);
+
+  return res;
+}
+
+static void
+pin_wait_level (int fd, struct pollfd *fds, int level)
+{
   int res;
 
-  fds = (const struct pollfd) { 0 };
-  fds.fd = fd;
-  fds.events = POLLPRI;
-
   do {
-    int rc;
-    char buf[2];
-
-    rc = poll (&fds, 1, 100000);
-    if (rc < 0) {
-      fprintf (stderr, "Error on poll!\n");
-      return;
-    }
-
-    lseek (fd, 0, SEEK_SET);
-    read (fd, buf, 2);
-    buf[1] = 0;
-
-    res = atoi (buf);
-
+    res = pin_get_level (fd, fds);
   } while (res != level);
 }
 
@@ -234,6 +249,10 @@ lngpio_pin_open (int pin)
   data = malloc (sizeof (LNGPIOPinData));
   data->fd = fd;
 
+  data->fds = (const struct pollfd) { 0 };
+  data->fds.fd = fd;
+  data->fds.events = POLLPRI;
+
   return data;
 }
 
@@ -251,13 +270,86 @@ lngpio_pin_pulse_len (LNGPIOPinData *data, int level)
   struct timeval tn, t1;
   long micros;
 
-  pin_wait_level (data->fd, level);
+  pin_wait_level (data->fd, &data->fds, level);
   gettimeofday (&t1, NULL);
-  pin_wait_level (data->fd, 1 - level);
+  pin_wait_level (data->fd, &data->fds, 1 - level);
   gettimeofday (&tn, NULL);
 
   micros = (tn.tv_sec - t1.tv_sec) * 1000000L;
   micros += (tn.tv_usec - t1.tv_usec);
 
   return micros;
+}
+
+static void*
+monitor_thread (void *data)
+{
+  LNGPIOPinMonitor *monitor = (LNGPIOPinMonitor *)data;
+  int stop_thread = 0;
+  int latest_status = -1;
+
+  while (stop_thread == 0) {
+    int status;
+
+    status = pin_get_level (monitor->pin_data->fd, &monitor->pin_data->fds);
+
+    if (latest_status == -1) {
+      latest_status = status;
+      continue;
+    }
+
+    if (latest_status != status) {
+      monitor->callback (monitor->pin, status);
+      latest_status = status;
+    }
+
+    pthread_mutex_lock (&monitor->lock);
+    stop_thread = monitor->stop_thread;
+    pthread_mutex_unlock (&monitor->lock);
+  }
+
+  return NULL;
+}
+
+LNGPIOPinMonitor*
+lngpio_pin_monitor_create (int pin, LNGPIOPinStatusChanged status_changed)
+{
+  LNGPIOPinMonitor *monitor;
+
+  monitor = malloc (sizeof (LNGPIOPinMonitor));
+  *monitor = (LNGPIOPinMonitor) { 0 };
+  monitor->pin = pin;
+  monitor->callback = status_changed;
+
+  monitor->pin_data = lngpio_pin_open (pin);
+
+  if (pthread_mutex_init (&monitor->lock, NULL) != 0) {
+    free (monitor);
+    return NULL;
+  }
+
+  if (pthread_create (&monitor->thread_id, NULL, monitor_thread, monitor)) {
+    pthread_mutex_destroy (&monitor->lock);
+    free (monitor);
+    return NULL;
+  }
+
+  return monitor;
+}
+
+int
+lngpio_pin_monitor_stop (LNGPIOPinMonitor *monitor)
+{
+  pthread_mutex_lock (&monitor->lock);
+  monitor->stop_thread = 1;
+  pthread_mutex_unlock (&monitor->lock);
+
+  pthread_join (monitor->thread_id, NULL);
+  pthread_mutex_destroy (&monitor->lock);
+
+  lngpio_pin_release (monitor->pin_data);
+
+  free (monitor);
+
+  return 0;
 }

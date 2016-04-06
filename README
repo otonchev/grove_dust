@@ -8,8 +8,19 @@ connected to Raspberry Pi.
 To run the project:
 
 git clone
+
 make test
 ./test
+
+OR
+
+make test_async
+./test_async
+
+lngpio provides two APIs:
+
+1. synchronous API with a pulseIn alike function, ./test uses that one
+2. asyncronous API with callbacks, ./test_async demontrates how to use it
 
 Dust concentration is measured in pcs/0.01cf and μg/m3.
 
