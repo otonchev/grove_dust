@@ -1,9 +1,12 @@
 Grove Dust sensor(Shinyei PPD42NS) and Raspberry Pi
------------------------------------------------------
+---------------------------------------------------
 
 This project demonstrates how to monitor the air quality in an environment by
 measuring the dust concentration with the Grove Dust sensor(Shinyei PPD42NS)
 connected to Raspberry Pi.
+
+Dust concentration is measured in pcs/0.01cf and μg/m3. AQI (Air quality index)
+is also calculated for direct comparison with data on http://aqicn.org.
 
 To run the project:
 
@@ -22,14 +25,25 @@ lngpio provides two APIs:
 1. synchronous API with a pulseIn alike function, ./test uses that one
 2. asyncronous API with callbacks, ./test_async demontrates how to use it
 
-Dust concentration is measured in pcs/0.01cf and μg/m3.
-
 No third-party software is required to run the application.
+
+Example output:
+
+161.748291 pcs/0.01cf, 0.252226 μg/m3, 1 AQI
+510.323608 pcs/0.01cf, 0.795786 μg/m3, 3 AQI
+696.272583 pcs/0.01cf, 1.085750 μg/m3, 4 AQI
+523.159485 pcs/0.01cf, 0.815802 μg/m3, 3 AQI
+324.386963 pcs/0.01cf, 0.505841 μg/m3, 2 AQI
+424.624207 pcs/0.01cf, 0.662149 μg/m3, 2 AQI
+131.289444 pcs/0.01cf, 0.204730 μg/m3, 0 AQI
+715.067444 pcs/0.01cf, 1.115059 μg/m3, 4 AQI
 
 The Shinyei sensor is connected to the GPIO on the Raspberry Pi in the following
 manner:
 
-Red wire to Pin 2(5V)
-Black wire to Pin 6(GND)
-Black wire to a 3k3 resistor which on the other end is connected to Pin 7(GPIO4)
-Pin 7(GPIO4) to a 1k2 resistor which on the other end connects to Yellow wire
+1) Red wire to Pin 2(5V)
+2) Black wire to Pin 6(GND)
+3) Black wire to a 3k3 resistor which on the other end is connected to Pin 11
+(GPIO17)
+4) Pin 11(GPIO17) to a 1k2 resistor which on the other end connects to Yellow
+wire

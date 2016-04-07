@@ -8,7 +8,7 @@
 #define LOW  0
 #define HIGH 1
 
-#define PIN  4
+#define PIN  17
 
 unsigned long starttime;
 unsigned long sampletime_ms = 30000; /* 30s */
@@ -37,13 +37,49 @@ pcs2ugm3 (float concentration_pcs)
   return (concentration_pcs) * K * mass25;
 }
 
+#define AQI_LEVELS 7
+
+static struct pm25aqi {
+    float clow;
+    float chigh;
+    int llow;
+    int lhigh;
+} pm25aqi[] = {
+  {0.0,    12.0,   0, 50},
+  {12.1,   35.4,  51, 100},
+  {35.5,   55.4, 101, 150},
+  {55.5,  150.4, 151, 200},
+  {150.5, 250.4, 201, 300},
+  {250.5, 350.4, 301, 350},
+  {350.5, 500.4, 401, 500},
+};
+
+/* calculate AQI (Air Quality Index) based on μg/m3 concentration */
+static int
+ugm32aqi (float concentration_ugm3)
+{
+  int i;
+
+  for (i = 0; i < AQI_LEVELS; i++) {
+    if (concentration_ugm3 >= pm25aqi[i].clow &&
+        concentration_ugm3 <= pm25aqi[i].chigh) {
+      return ((pm25aqi[i].lhigh - pm25aqi[i].llow) /
+          (pm25aqi[i].chigh - pm25aqi[i].clow)) *
+              (concentration_ugm3 - pm25aqi[i].clow) + pm25aqi[i].llow;
+    }
+  }
+
+  return 0;
+}
+
 static void
 loop (LNGPIOPinData *data)
 {
   unsigned long pulse_duration;
 
   pulse_duration = lngpio_pin_pulse_len (data, LOW);
-  printf ("pulse duration: %ld\n", pulse_duration);
+  if (pulse_duration > 95000 || pulse_duration < 8500)
+     printf ("pulse duration out of bounds: %ld\n", pulse_duration);
 
   lowpulseoccupancy = lowpulseoccupancy + pulse_duration;
 
@@ -51,13 +87,16 @@ loop (LNGPIOPinData *data)
     float ratio;
     float concentration_pcs;
     float concentration_ugm3;
+    int aqi;
 
     ratio = lowpulseoccupancy / (sampletime_ms * 10.0);
     concentration_pcs =
         1.1 * pow (ratio, 3) - 3.8 * pow (ratio, 2) + 520 * ratio + 0.62;
     concentration_ugm3 = pcs2ugm3 (concentration_pcs);
+    aqi = ugm32aqi (concentration_ugm3);
 
-    printf ("%f pcs/0.01cf, %f μg/m3\n", concentration_pcs, concentration_ugm3);
+    printf ("%f pcs/0.01cf, %f μg/m3, %d AQI\n", concentration_pcs,
+        concentration_ugm3, aqi);
 
     lowpulseoccupancy = 0;
     starttime = millis ();

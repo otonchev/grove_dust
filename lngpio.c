@@ -205,6 +205,7 @@ pin_get_level (int fd, struct pollfd *fds)
   int res;
   int rc;
   char buf[3];
+  ssize_t bytes;
 
   rc = poll (fds, 1, 100000);
   if (rc < 0) {
@@ -213,7 +214,7 @@ pin_get_level (int fd, struct pollfd *fds)
   }
 
   lseek (fd, 0, SEEK_SET);
-  read (fd, buf, 3);
+  bytes = read (fd, buf, 3);
   buf[1] = 0;
 
   res = atoi (buf);
