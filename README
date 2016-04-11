@@ -4,6 +4,8 @@ Grove Dust sensor(Shinyei PPD42NS) and Raspberry Pi
 This project demonstrates how to monitor the air quality in an environment by
 measuring the dust concentration with the Grove Dust sensor(Shinyei PPD42NS)
 connected to Raspberry Pi.
+Results are pretty similar to a setup where the Grove Dust sensor is connected
+to the digital input port N8 on Arduino Uno.
 
 Dust concentration is measured in pcs/0.01cf and μg/m3. AQI (Air quality index)
 is also calculated for direct comparison with data on http://aqicn.org.
