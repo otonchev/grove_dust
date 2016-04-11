@@ -1,8 +1,8 @@
 CC=gcc
 CFLAGS=-I. -Werror -pthread -g
-DEPS = lngpio.h
-OBJ = lngpio.o test.o
-OBJ_ASYNC = lngpio.o test_async.o
+DEPS = lngpio.h air_utils.h
+OBJ = lngpio.o air_utils.o test.o
+OBJ_ASYNC = lngpio.o air_utils.o test_async.o
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
