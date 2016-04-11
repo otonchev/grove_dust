@@ -1,3 +1,9 @@
+/*
+ * (c) 2016 Ognyan Tonchev otonchev@gmail.com
+ * Example application monitoring Fine particle (PM2.5) with Grove Dust sensor
+ * (Shinyei PPD42NS) and a Raspberry Pi.
+ * The app uses lngpio's synchronous API with a pulseIn alike function.
+ */
 #include "lngpio.h"
 #include "air_utils.h"
 
