@@ -43,7 +43,7 @@ manner:
 
 1) Red wire to Pin 2(5V)
 2) Black wire to Pin 6(GND)
-3) Black wire to a 3k3 resistor which on the other end is connected to Pin 11
+3) Black wire to a 3k resistor which on the other end is connected to Pin 11
 (GPIO17)
-4) Pin 11(GPIO17) to a 1k2 resistor which on the other end connects to Yellow
+4) Pin 11(GPIO17) to a 2k resistor which on the other end connects to Yellow
 wire
