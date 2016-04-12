@@ -1,0 +1,32 @@
+In order to be able to visualize air quality readings 2 preconditions must be
+met:
+
+1. Create Database following the instruction in ../README
+
+2. run ../test_mysql to start gathering and collecting Air Quality data
+
+airquality.py - Retrieve and show latest Air Quality readings
+-------------------------------------------------------------
+
+        http://<IP>/cgi-bin/airquality.py
+
+The output is the latest reading:
+
+        "AQI (Air Quality index) 6, obtained at: 2016-04-12 12:31:19"
+
+plot_airquality.py - CGI/App plotting Air Quality readings
+----------------------------------------------------------
+
+Note that the CGI uses matplotlib, type command below to install:
+
+	sudo pip3 install matplotlib
+
+or
+
+	sudo pip install matplotlib
+
+And then access the data through:
+
+	http://<IP>/cgi-bin/plot_airquality.py
+
+The output is a .PNG image
