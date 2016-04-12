@@ -22,7 +22,25 @@ OR
 make test_async
 ./test_async
 
-lngpio provides two APIs:
+OR
+
+make test_mysql
+./test_mysql
+
+./test_mysql stores data into a MySQL database so that it can be later retrieved
+and plotted for example. For the test app to work set up the database in the
+following way:
+
+mysql -h localhost -u root -ppass
+mysql> CREATE DATABASE AirQuality;
+mysql> use AirQuality;
+mysql> CREATE TABLE ParticlePM25 (concentration_pcs FLOAT, \
+    concentration_ugm3 FLOAT, aqi INT, ts_created TIMESTAMP);
+mysql> quit
+Bye
+
+All test applications use lngpio which is part of the project, it provides two
+APIs for reading the GPIO:
 
 1. synchronous API with a pulseIn alike function, ./test uses that one
 2. asyncronous API with callbacks, ./test_async demontrates how to use it
