@@ -10,6 +10,12 @@ to the digital input port N8 on Arduino Uno.
 Dust concentration is measured in pcs/0.01cf and μg/m3. AQI (Air quality index)
 is also calculated for direct comparison with data on http://aqicn.org.
 
+Example installation:
+
+Fine particle (PM2.5) in Lund, Sweden, Live data
+http://ogy.noip.me:3456/scripts/airquality.py
+http://ogy.noip.me:3456/scripts/plot_airquality.py
+
 To run the project:
 
 git clone
