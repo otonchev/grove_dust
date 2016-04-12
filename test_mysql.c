@@ -1,7 +1,21 @@
 /*
  * (c) 2016 Ognyan Tonchev otonchev@gmail.com
  * Example application monitoring Fine particle (PM2.5) with Grove Dust sensor
- * (Shinyei PPD42NS) and a Raspberry Pi.
+ * (Shinyei PPD42NS) and a Raspberry Pi. Data is then stored into a MySQL
+ * database.
+ *
+ * set up the database in the following way:
+ *
+ * mysql -h localhost -u root -ppass
+ * mysql> CREATE DATABASE AirQuality;
+ * mysql> use AirQuality;
+ * mysql> CREATE TABLE ParticlePM25 (concentration_pcs FLOAT, \
+ *     concentration_ugm3 FLOAT, aqi INT, ts_created TIMESTAMP);
+ * mysql> quit
+ * Bye
+ *
+ * Also change MYSQL_DATABASE, MYSQL_USER, MYSQL_PASS below correspondingly.
+ *
  * The app uses lngpio's asynchronous API.
  */
 #include "lngpio.h"
