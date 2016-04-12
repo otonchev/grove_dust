@@ -47,9 +47,9 @@ APIs for reading the GPIO:
 1. synchronous API with a pulseIn alike function, ./test uses that one
 2. asyncronous API with callbacks, ./test_async demontrates how to use it
 
-No third-party software is required to run the application.
+No third-party software is required to run the applications.
 
-Example output:
+Example output (./test && ./test_async):
 
 161.748291 pcs/0.01cf, 0.252226 μg/m3, 1 AQI
 510.323608 pcs/0.01cf, 0.795786 μg/m3, 3 AQI
