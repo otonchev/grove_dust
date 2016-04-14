@@ -26,7 +26,7 @@ def cgi_error(msg):
     print msg
     exit(0)
 
-#connect to database, note that database Temperature must exist
+#connect to the database
 try:
     conn = MySQLdb.connect(host="localhost", user=db_user, passwd=db_pass,
         db=db_name)
@@ -36,9 +36,7 @@ except MySQLdb.Error:
 
 cursor = conn.cursor()
 
-#query air quality data, note that table ParticlePM25 must exist and there
-#should be 2 fields: ts_created TIMESTAMP and aqi INT
-#Only last 1 week is taken into account.
+#query air quality data, only latest reading is of interest
 try:
     cursor.execute('SELECT ts_created, aqi FROM ParticlePM25 WHERE ts_created ='
         ' (SELECT MAX(ts_created) FROM ParticlePM25)');

@@ -32,7 +32,7 @@ def cgi_error(msg):
     print msg
     exit(0)
 
-#connect to database, note that database Temperature must exist
+#connect to the database
 try:
     conn = MySQLdb.connect(host="localhost", user=db_user, passwd=db_pass,
         db=db_name)
@@ -42,9 +42,7 @@ except MySQLdb.Error:
 
 cursor = conn.cursor()
 
-#query air quality data, note that table ParticlePM25 must exist and there
-#should be 2 fields: ts_created TIMESTAMP and aqi INT
-#Only last 1 week is taken into account.
+#query air quality data, only reading from the last one week are of interest
 try:
     cursor.execute('SELECT ts_created, aqi FROM %s WHERE ts_created >= curdate()'
         ' - INTERVAL DAYOFWEEK(curdate())+6 DAY' % db_table);
@@ -55,7 +53,7 @@ rows = cursor.fetchall()
 if len(rows) == 0:
     cgi_error("no air quality data")
 
-#create two lists, one containing all air quality readings, the other one
+#create two lists, one containing air quality readings, the other one
 #timestamps
 air_quality_data = []
 dates = []
