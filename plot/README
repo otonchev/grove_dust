@@ -3,7 +3,7 @@ met:
 
 1. Create Database following the instruction in ../README
 
-2. run ../test_mysql to start gathering and collecting Air Quality data
+2. run ../test_mysql to start collecting and storing Air Quality data
 
 airquality.py - Retrieve and show latest Air Quality readings
 -------------------------------------------------------------
