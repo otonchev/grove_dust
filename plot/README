@@ -1,32 +1,41 @@
-In order to be able to visualize air quality readings 2 preconditions must be
+In order to be able to visualize air quality readings some preconditions must be
 met:
 
 1. Create Database following the instruction in ../README
 
-2. run ../test_mysql to start collecting and storing Air Quality data
+2. Run ../test_mysql to start collecting and storing Air Quality data
+
+3. Install Apache and enable CGIs:
+
+        sudo apt-get install apache2
+        enable "conf-available/serve-cgi-bin.conf" in
+                /etc/apache2/sites-enabled/000-default.conf
+        enable mod_cgi
+        sudo service apache2 restar
+
+4. Install the CGIs:
+
+        sudo cp plot/plot_airquality.py /usr/lib/cgi-bin/
+        sudo cp plot/airquality.py /usr/lib/cgi-bin/
 
 airquality.py - Retrieve and show latest Air Quality readings
 -------------------------------------------------------------
 
         http://<IP>/cgi-bin/airquality.py
 
-The output is the latest reading:
+The output is the latest reading obtained from the sensor:
 
         "AQI (Air Quality index) 6, obtained at: 2016-04-12 12:31:19"
 
-plot_airquality.py - CGI/App plotting Air Quality readings
-----------------------------------------------------------
+plot_airquality.py - Plot Air Quality readings and output data in .SVG format
+-----------------------------------------------------------------------------
 
-Note that the CGI uses matplotlib, type command below to install:
+Note that this CGI uses matplotlib, type command below to install:
 
-	sudo pip3 install matplotlib
-
-or
-
-	sudo pip install matplotlib
+	sudo apt-get install python-matplotlib
 
 And then access the data through:
 
 	http://<IP>/cgi-bin/plot_airquality.py
 
-The output is a .PNG image
+The output graph is in a .SVG format
