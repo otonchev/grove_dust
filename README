@@ -16,6 +16,9 @@ Fine particle (PM2.5) in Lund, Sweden, Live data
 http://ogy.noip.me:3456/scripts/airquality.py
 http://ogy.noip.me:3456/scripts/plot_airquality.py
 
+Air Quality graph:
+https://raw.githubusercontent.com/otonchev/grove_dust/master/images/plot.png
+
 To run the project:
 
 git clone
