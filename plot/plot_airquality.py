@@ -42,10 +42,10 @@ except MySQLdb.Error:
 
 cursor = conn.cursor()
 
-#query air quality data, only reading from the last one week are of interest
+#query air quality data, only readings from the last 2 days are of interest
 try:
     cursor.execute('SELECT ts_created, aqi FROM %s WHERE ts_created >= curdate()'
-        ' - INTERVAL DAYOFWEEK(curdate())+6 DAY' % db_table);
+        ' - INTERVAL DAYOFWEEK(curdate())-6 DAY' % db_table);
 except MySQLdb.Error:
     cgi_error("unable to query database, table %s does not exist?" % db_table)
 
@@ -62,8 +62,8 @@ for (current_time, current_reading) in rows:
     air_quality_data = air_quality_data + [current_reading]
     dates = dates + [current_time]
 
-#plot data into a .png image
-format = "png"
+#plot data into a .svg image
+format = "svg"
 sio = cStringIO.StringIO()
 fig = pyplot.figure()
 fig.suptitle('AQI (Air Quality index)', fontsize=20)
@@ -78,5 +78,5 @@ pyplot.plot(dates, air_quality_data)
 pyplot.savefig(sio, format=format)
 
 #send image data to the web server
-print "Content-Type: image/%s\n\n" % format
+sys.stdout.write("Content-Type: text/xml\r\n\r\n")
 sys.stdout.write(sio.getvalue())
