@@ -44,8 +44,8 @@ cursor = conn.cursor()
 
 #query air quality data, only readings from the last 2 days are of interest
 try:
-    cursor.execute('SELECT ts_created, aqi FROM %s WHERE ts_created >= curdate()'
-        ' - INTERVAL DAYOFWEEK(curdate())-6 DAY' % db_table);
+    cursor.execute('SELECT ts_created, aqi FROM %s WHERE ts_created >= '
+        'DATE_ADD(CURDATE(), INTERVAL -1 DAY)' % db_table);
 except MySQLdb.Error:
     cgi_error("unable to query database, table %s does not exist?" % db_table)
 
