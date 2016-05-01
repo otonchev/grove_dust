@@ -80,6 +80,21 @@ Example output (./test && ./test_async):
 The Shinyei sensor is connected to the GPIO on the Raspberry Pi in the following
 manner:
 
+          +------------------+
+          |                  |
+          |  Shinyei PPD42   |
+          |                  |
+          +------------------+
+            |      |       |
+            | black|       |yellow          _____
+         red|      |       +---------------[_____]-----+
+            |      |                         2kOm      |
+            |      |               _____               |
+            |      +--------+-----[_____]--------------+
+            |               |       3kOm               |
+            *               *                          *
+       GPIOPin2(5V)    GPIOPin6(GND)             GPIOPin11(17)
+
 1) Red wire to Pin 2(5V)
 2) Black wire to Pin 6(GND)
 3) Black wire to a 3k resistor which on the other end is connected to Pin 11
