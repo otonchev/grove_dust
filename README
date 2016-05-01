@@ -7,6 +7,9 @@ PPD42NS) connected to Raspberry Pi.
 Results are pretty similar to a setup where the Grove Dust sensor is connected
 to the digital input port N8 on Arduino Uno.
 
+SHINYEI ppd42:
+https://raw.githubusercontent.com/otonchev/grove_dust/master/images/shinyei.jpg
+
 Dust concentration is measured in pcs/0.01cf and μg/m3. AQI (Air quality index)
 is also calculated for direct comparison with data on http://aqicn.org.
 
@@ -15,9 +18,6 @@ Example installation:
 Fine particle (PM2.5) in Lund, Sweden, Live data
 http://ogy.noip.me:3456/scripts/airquality.py
 http://ogy.noip.me:3456/scripts/plot_airquality.py
-
-Air Quality graph:
-https://raw.githubusercontent.com/otonchev/grove_dust/master/images/plot.png
 
 To run the project:
 
@@ -40,15 +40,23 @@ make test_mysql
 and plotted for example. For the test app to work set up the database in the
 following way:
 
-mysql -h localhost -u root -ppass
-mysql> CREATE DATABASE AirQuality;
-mysql> use AirQuality;
-mysql> CREATE TABLE ParticlePM25 (concentration_pcs FLOAT, \
-    concentration_ugm3 FLOAT, aqi INT, ts_created TIMESTAMP);
-mysql> quit
-Bye
+    mysql -h localhost -u root -ppass
+    mysql> CREATE DATABASE AirQuality;
+    mysql> use AirQuality;
+    mysql> CREATE TABLE ParticlePM25 (concentration_pcs FLOAT, \
+        concentration_ugm3 FLOAT, aqi INT, ts_created TIMESTAMP);
+    mysql> quit
+    Bye
+
+Required packages:
+
+    sudo apt-get install mysql-server
+    sudo apt-get install libmysqlclient-dev
 
 For plotting/displaying the result in a browser, look at plot/README
+
+Example Air Quality graph:
+https://raw.githubusercontent.com/otonchev/grove_dust/master/images/plot.png
 
 All test applications use lngpio which is part of the project, it provides two
 APIs for reading the GPIO:
