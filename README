@@ -21,7 +21,7 @@ http://ogy.noip.me:3456/scripts/plot_airquality.py
 
 To run the project:
 
-git clone
+    git clone
 
     make test
     ./test
@@ -35,6 +35,25 @@ OR
 
     make test_mysql
     ./test_mysql
+
+No third-party software is required to run the applications.
+
+All test applications use lngpio which is part of the project, it provides two
+APIs for reading the GPIO:
+
+1. synchronous API with a pulseIn alike function, ./test uses that one
+2. asyncronous API with callbacks, ./test_async demontrates how to use it
+
+Example output (./test && ./test_async):
+
+161.748291 pcs/0.01cf, 0.252226 μg/m3, 1 AQI
+510.323608 pcs/0.01cf, 0.795786 μg/m3, 3 AQI
+696.272583 pcs/0.01cf, 1.085750 μg/m3, 4 AQI
+523.159485 pcs/0.01cf, 0.815802 μg/m3, 3 AQI
+324.386963 pcs/0.01cf, 0.505841 μg/m3, 2 AQI
+424.624207 pcs/0.01cf, 0.662149 μg/m3, 2 AQI
+131.289444 pcs/0.01cf, 0.204730 μg/m3, 0 AQI
+715.067444 pcs/0.01cf, 1.115059 μg/m3, 4 AQI
 
 ./test_mysql stores data into a MySQL database so that it can be later retrieved
 and plotted for example. For the test app to work set up the database in the
@@ -57,25 +76,6 @@ For plotting/displaying the result in a browser, look at plot/README
 
 Example Air Quality graph:
 https://raw.githubusercontent.com/otonchev/grove_dust/master/images/plot.png
-
-All test applications use lngpio which is part of the project, it provides two
-APIs for reading the GPIO:
-
-1. synchronous API with a pulseIn alike function, ./test uses that one
-2. asyncronous API with callbacks, ./test_async demontrates how to use it
-
-No third-party software is required to run the applications.
-
-Example output (./test && ./test_async):
-
-161.748291 pcs/0.01cf, 0.252226 μg/m3, 1 AQI
-510.323608 pcs/0.01cf, 0.795786 μg/m3, 3 AQI
-696.272583 pcs/0.01cf, 1.085750 μg/m3, 4 AQI
-523.159485 pcs/0.01cf, 0.815802 μg/m3, 3 AQI
-324.386963 pcs/0.01cf, 0.505841 μg/m3, 2 AQI
-424.624207 pcs/0.01cf, 0.662149 μg/m3, 2 AQI
-131.289444 pcs/0.01cf, 0.204730 μg/m3, 0 AQI
-715.067444 pcs/0.01cf, 1.115059 μg/m3, 4 AQI
 
 The Shinyei sensor is connected to the GPIO on the Raspberry Pi in the following
 manner:
