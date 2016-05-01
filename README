@@ -23,18 +23,18 @@ To run the project:
 
 git clone
 
-make test
-./test
+    make test
+    ./test
 
 OR
 
-make test_async
-./test_async
+    make test_async
+    ./test_async
 
 OR
 
-make test_mysql
-./test_mysql
+    make test_mysql
+    ./test_mysql
 
 ./test_mysql stores data into a MySQL database so that it can be later retrieved
 and plotted for example. For the test app to work set up the database in the
