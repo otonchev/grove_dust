@@ -11,7 +11,7 @@ met:
         enable "conf-available/serve-cgi-bin.conf" in
                 /etc/apache2/sites-enabled/000-default.conf
         enable mod_cgi
-        sudo service apache2 restar
+        sudo service apache2 restart
 
 4. Install the CGIs:
 
@@ -39,3 +39,6 @@ And then access the data through:
 	http://<IP>/cgi-bin/plot_airquality.py
 
 The output graph is in a .SVG format
+
+Example Air Quality graph:
+https://raw.githubusercontent.com/otonchev/grove_dust/master/images/plot.png
