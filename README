@@ -20,7 +20,7 @@ http://ogy.noip.me:3456/scripts/airquality.py
 http://ogy.noip.me:3456/scripts/plot_airquality.py
 
 Fine particle (PM2.5) in Sofia, Bulgaria, Krasno selo, ul. Pchela
-Прахови частици (ПМ2.5) София, Красно село, улица Пчела
+Фини прахови частици (ПМ2.5) София, Красно село, улица Пчела
 http://87.121.162.187:3456/cgi-bin/airquality.py
 http://87.121.162.187:3456/cgi-bin/plot_airquality.py
 
