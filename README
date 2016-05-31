@@ -16,6 +16,7 @@ is also calculated for direct comparison with data on http://aqicn.org.
 Example installation:
 
 Fine particle (PM2.5) in Lund, Sweden, Live data
+http://ogy.noip.me:3456/scripts/web_api.py (Inside Air Quality)
 http://ogy.noip.me:3456/scripts/airquality.py
 http://ogy.noip.me:3456/scripts/plot_airquality.py
 
