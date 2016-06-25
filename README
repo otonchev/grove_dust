@@ -16,9 +16,10 @@ is also calculated for direct comparison with data on http://aqicn.org.
 Example installation:
 
 Fine particle (PM2.5) in Lund, Sweden, Live data
-http://ogy.noip.me:3456/scripts/web_api.py (Inside Air Quality)
-http://ogy.noip.me:3456/scripts/airquality.py
-http://ogy.noip.me:3456/scripts/plot_airquality.py
+http://ogy.noip.me:5670/home (Inside Air Quality)
+
+This is part of the Homefrog Home Automation Framework:
+https://github.com/otonchev/homefrog
 
 Fine particle (PM2.5) in Sofia, Bulgaria, Krasno selo, ul. Pchela
 Фини прахови частици (ПМ2.5) София, Красно село, улица Пчела
