@@ -17,7 +17,7 @@ Example installation:
 
 Fine particle (PM2.5) in Lund, Sweden, Live data
 http://ogy.noip.me:5670/home (Inside Air Quality)
-
+http://ogy.noip.me:5670/home/floor1/DustConcentration?history
 This is part of the Homefrog Home Automation Framework:
 https://github.com/otonchev/homefrog
 
